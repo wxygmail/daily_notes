@@ -54,13 +54,12 @@ result("./test1.js").then((data) => {
 
 #### 手写Promise
 
-先来分析promise的基本特征（
+先来分析promise的基本特征：
 
-[Promise/A+]: https://promisesaplus.com/	"Promise/A+"
+<img src="../images/promise/p4.jpg" style="zoom: 33%;" />
 
-）：
+promise有三种状态：**Pending**（待办的、在等待...），**Fulfilled**（resolve,完成，解决），**Rejected**（失败），Promise只能Pendind到Fulfilled，或者Pending到Rejected，状态一旦确定就不可以改变，默认状态为Pending；
 
-- promise有三种状态：**Pending**（待办的、在等待...），**Fulfilled**（resolve,完成，解决），**Rejected**（失败），Promise只能Pendind到Fulfilled，或者Pending到Rejected，状态一旦确定就不可以改变，默认状态为Pending；
 - new Promise时需要传一个executor()执行器，并且立即执行；
 - executor()接收俩个参数，分别是resolve和reject；
 - promise 用一个 value保存成功状态时候的值，可以是undefined、promise、thenable，用一个reason保存状态失败的值；
@@ -71,6 +70,10 @@ result("./test1.js").then((data) => {
 根据以上特征先编写初步代码：
 
 ```
+const PENDING = "PENDING";
+const FULFILLED = "FULFILLED";
+const REJECTED = "REJECTED";
+
 class Promise {
   //executor是一个双参函数，参数为resolve和reject。Promise的实现会立即执行executor
   constructor(executor) {
@@ -185,3 +188,8 @@ class Promise {
 
 到此，异步问题的处理暂时告一段落撩~
 
+<img src="../images/promise/p5.gif" style="zoom:50%;" />
+
+**解决链式调用**
+
+// ...todo
