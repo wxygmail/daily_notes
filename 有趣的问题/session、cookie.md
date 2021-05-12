@@ -11,8 +11,8 @@ HTTP Cookie(也叫WebCookie 或 浏览器 Cookie)是服务器发送到浏览器�
 cookie主要用于下面这个方面：
 
 - **会话状态管理**：如用户登录状态，购物车，游戏分数或其他需要记录的信息；
-- **个性化设置：**如用户自定义设置，主体等；
-- **浏览器行为跟踪：**如跟踪分析用户行为等。
+- **个性化设置**：如用户自定义设置，主体等；
+- **浏览器行为跟踪**：如跟踪分析用户行为等。
 
 ### 什么是Session？
 
@@ -20,12 +20,12 @@ session代表着客户端与服务器的一次会话过程。客户端向服务�
 
 ### Cookie和Session有什么不同？
 
-- **存储位置的不同：**cookie的数据信息存储在客户端（浏览器）上，session的数据信息存储在服务器上。
-- **存储容量的不同：**单个cookie保存的数据<=4KB，session可存储的数据远高于cookie，但是session数据是保存在服务器上的，为了避免服务器负担过重，不应将将过多的数据存储在session对象中，并且设置session的删除机制。
-- **有效期上的不同：**在开发环境中我们可以设置cookie的属性，使其达到长期有效的效果；session在服务器默认有效时间为30min，只要达到有效时间或者关闭窗口之后session就会失效，因此session并不能达到长期有效的效果。
-- **存储方式的不同：**cookie只能存储ASCII（[**A**merican **S**tandard **C**ode for **I**nformation **I**nterchange](https://zh.wikipedia.org/wiki/ASCII)，美国信息交换标准码），并且需要通过编码转换为Unicode字符或者二进制数据进行存储；session能够存储任何类型的数据，包括但不仅限于 string，array，map等等。
-- **隐私策略的不同：**cookie存储在客户端上，cookie是可见的，有坏心思的人会盗用cookie去做坏事（比如窃取用户信息），session数据存储在服务器上，对客户端来说是透明的，对敏感信息的安全性比cookie的要高。
-- **跨域支持的不同：**cookie支持跨域名访问，session不支持跨域名访问。
+- **存储位置的不同**：cookie的数据信息存储在客户端（浏览器）上，session的数据信息存储在服务器上。
+- **存储容量的不同**：单个cookie保存的数据<=4KB，session可存储的数据远高于cookie，但是session数据是保存在服务器上的，为了避免服务器负担过重，不应将将过多的数据存储在session对象中，并且设置session的删除机制。
+- **有效期上的不同**：在开发环境中我们可以设置cookie的属性，使其达到长期有效的效果；session在服务器默认有效时间为30min，只要达到有效时间或者关闭窗口之后session就会失效，因此session并不能达到长期有效的效果。
+- **存储方式的不同**：cookie只能存储ASCII（[**A**merican **S**tandard **C**ode for **I**nformation **I**nterchange](https://zh.wikipedia.org/wiki/ASCII)，美国信息交换标准码），并且需要通过编码转换为Unicode字符或者二进制数据进行存储；session能够存储任何类型的数据，包括但不仅限于 string，array，map等等。
+- **隐私策略的不同**：cookie存储在客户端上，cookie是可见的，有坏心思的人会盗用cookie去做坏事（比如窃取用户信息），session数据存储在服务器上，对客户端来说是透明的，对敏感信息的安全性比cookie的要高。
+- **跨域支持的不同**：cookie支持跨域名访问，session不支持跨域名访问。
 
 ### 为什么需要cookie和session，它们之间有什么关联？
 
