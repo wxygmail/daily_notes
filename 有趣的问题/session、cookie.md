@@ -5,7 +5,7 @@ HTTP协议是一种无状态协议，即每次客户端向服务器发起请求�
 根绝[MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies)对cookie的官方解释：
 
 ```
-HTTP Cookie(也叫WebCookie 或 浏览器 Cookie)是服务器发送到浏览器的一小块数据，它会在浏览器下次向同一服务器发起请求时被携带并发送到服务器上。通常，它用于告知服务器俩个请求是否来自己同一个浏览器，如保持用户的登录状态。Cookie使基于无状态的HTTP协议记录稳定的状态信息成为可能。
+HTTP Cookie(也叫WebCookie 或 浏览器 Cookie)是服务器发送到浏览器的一小块数据，它会在浏览器下次向同一服务器发起请求时被携带并发送到服务器上。通常，它用于告知服务器俩个请求是否来自同一个浏览器，如保持用户的登录状态。Cookie使基于无状态的HTTP协议记录稳定的状态信息成为可能。
 ```
 
 cookie主要用于下面这个方面：
