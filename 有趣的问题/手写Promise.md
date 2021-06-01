@@ -56,7 +56,7 @@ result("./test1.js").then((data) => {
 
 先来分析promise的基本特征：
 
-<img src="../images/promise/p4.jpg" style="zoom: 33%;" />
+<img src="../images/promise/p4.jpg" style="zoom: 50%;" />
 
 promise有三种状态：**Pending**（待办的、在等待...），**Fulfilled**（resolve,完成，解决），**Rejected**（失败），Promise只能Pendind到Fulfilled，或者Pending到Rejected，状态一旦确定就不可以改变，默认状态为Pending；
 
@@ -192,4 +192,120 @@ class Promise {
 
 **解决链式调用**
 
-// ...todo
+- then中的参数onFulfilled，onRejected可以缺省，如果onFulfilled，onRejected如果不是函数，将其忽略，且依旧可以在下面获取之前它返回的值。
+- promise.then可以执行多次，每次执行完then方法之后都会返回一个新的promise。
+
+```
+const resolvePromise = (promise2, x, resolve, reject) => {
+  if (promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #promise'))
+  }
+  // 加一个开关，防止调用了resolve之后再调用reject （同时调用resolve，reject）
+  let called = null;
+  if ((typeof x === 'object' && x !== null) || typeof x === 'function') {
+    try {
+      //
+      let then = x.then;
+      if (typeof then === 'function') {
+        then.call(x, y => {
+          if (called) return;
+          called = true;
+          //递归解析过程，promise里面还会存在promise的情况
+          resolvePromise(promise2, y, resolve, reject)
+        }, r => {
+          //失败情况
+          if (called) return;
+          called = true;
+          reject(r)
+        })
+      } else {
+        //如果then是一个普通值，直接返回结果
+        resolve(x);
+      }
+    } catch (error) {
+      if (called) return;
+      called = true;
+      reject(error);
+    }
+  } else {
+    //直接把上一步的传值返回去（为空的情况）
+    resolve(x);
+  }
+}
+
+  //编写then方法
+  then(onFulfilled, onRejected) {
+    // onFulfilled,onRejected 传值为空的情况
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v;
+    onRejected = typeof onRejected === 'function' ? onRejected : err => {
+      throw err;
+    };
+    // 每调用一次都新创建一个promise
+    let promise2 = new Promise((resolve, reject) => {
+      if (this.status === FULFILLED) {
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value);
+            console.log(promise2, x, 6666, resolve)
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0)
+      }
+      if (this.status === REJECTED) {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0)
+      }
+      if (this.status === PENDING) {
+        this.successCallBack.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onFulfilled(this.value);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          }, 0)
+        });
+        this.failCallBack.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onRejected(this.reason);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e)
+            }
+          }, 0)
+        });
+      }
+    });
+    return promise2;
+  }
+}
+```
+
+测试结果：
+
+```
+const p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(()=>{
+      console.log('success')
+    })
+  }, 0);
+})
+p.then().then().then(res => {
+  console.log(res(), 1);
+}, err => {
+  console.log(err(), 2);
+})
+```
+
+<img src="../images/promise/p5.png"  />
